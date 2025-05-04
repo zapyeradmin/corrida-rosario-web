@@ -35,7 +35,7 @@ const About = () => {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-              <div className="flex items-start gap-3">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3">
                 <div className="bg-race-primary/10 p-3 rounded-lg">
                   <Calendar className="text-race-primary" />
                 </div>
@@ -44,7 +44,7 @@ const About = () => {
                   <p className="text-gray-600">15 de Junho, 2025</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3">
                 <div className="bg-race-primary/10 p-3 rounded-lg">
                   <Clock className="text-race-primary" />
                 </div>
@@ -53,7 +53,7 @@ const About = () => {
                   <p className="text-gray-600">Concentração às 7:00 - Largada às 8:00</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3">
                 <div className="bg-race-primary/10 p-3 rounded-lg">
                   <MapPin className="text-race-primary" />
                 </div>
@@ -62,7 +62,7 @@ const About = () => {
                   <p className="text-gray-600">Matriz da Igreja de Nossa Senhora do Rosário</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3">
                 <div className="bg-race-primary/10 p-3 rounded-lg">
                   <Users className="text-race-primary" />
                 </div>
@@ -82,7 +82,7 @@ const About = () => {
         </div>
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 card-hover reveal" data-animation="fade-up">
+          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 card-hover reveal text-center" data-animation="fade-up">
             <div className="bg-race-primary/10 p-4 inline-block rounded-lg mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-race-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -95,7 +95,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 card-hover reveal" data-animation="fade-up">
+          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 card-hover reveal text-center" data-animation="fade-up">
             <div className="bg-race-primary/10 p-4 inline-block rounded-lg mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-race-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -108,7 +108,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 card-hover reveal" data-animation="fade-up">
+          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 card-hover reveal text-center" data-animation="fade-up">
             <div className="bg-race-primary/10 p-4 inline-block rounded-lg mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-race-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />

@@ -8,8 +8,8 @@ const Footer = () => {
     <footer id="contato" className="bg-gray-900 text-white pt-16 pb-8">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
-          <div>
-            <div className="flex items-center gap-2 mb-6">
+          <div className="text-center md:text-left">
+            <div className="flex items-center gap-2 mb-6 justify-center md:justify-start">
               <div className="h-10 w-10 rounded-full bg-race-primary flex items-center justify-center">
                 <span className="text-white font-bold text-lg">CF</span>
               </div>
@@ -23,7 +23,7 @@ const Footer = () => {
               ECC da Paróquia do Rosário de Serra Talhada em Pernambuco.
             </p>
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-center md:justify-start">
               {[
                 { icon: "M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" },
                 { icon: "M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" },
@@ -43,10 +43,10 @@ const Footer = () => {
             </div>
           </div>
 
-          <div>
+          <div className="text-center md:text-left">
             <h3 className="font-bold text-xl mb-6">Links Rápidos</h3>
-            <ul className="space-y-3">
-              {['Início', 'Sobre o Evento', 'Percurso', 'Inscrição', 'Contato'].map((item, index) => (
+            <ul className="space-y-3 flex flex-col items-center md:items-start">
+              {['Início', 'Sobre o Evento', 'Percurso', 'Patrocinadores', 'Inscrição', 'Contato'].map((item, index) => (
                 <li key={index}>
                   <a 
                     href={`#${item.toLowerCase().replace(/\s+/g, '-')}`} 
@@ -60,21 +60,21 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-bold text-xl mb-6">Contato</h3>
+            <h3 className="font-bold text-xl mb-6 text-center md:text-left">Contato</h3>
             <ul className="space-y-4">
-              <li className="flex gap-3">
+              <li className="flex flex-col md:flex-row items-center md:items-start gap-3">
                 <MapPin className="h-5 w-5 text-race-primary shrink-0" />
-                <span className="text-gray-400">
+                <span className="text-gray-400 text-center md:text-left">
                   Igreja de Nossa Senhora do Rosário, Serra Talhada - PE
                 </span>
               </li>
-              <li className="flex gap-3">
+              <li className="flex flex-col md:flex-row items-center md:items-start gap-3">
                 <Phone className="h-5 w-5 text-race-primary shrink-0" />
-                <a href="tel:+5587999999999" className="text-gray-400 hover:text-race-primary transition-colors">
-                  (87) 99999-9999
+                <a href="tel:+5587996709355" className="text-gray-400 hover:text-race-primary transition-colors">
+                  (87) 99670-9355
                 </a>
               </li>
-              <li className="flex gap-3">
+              <li className="flex flex-col md:flex-row items-center md:items-start gap-3">
                 <Mail className="h-5 w-5 text-race-primary shrink-0" />
                 <a href="mailto:contato@corridadasfamilias.com.br" className="text-gray-400 hover:text-race-primary transition-colors">
                   contato@corridadasfamilias.com.br
