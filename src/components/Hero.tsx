@@ -1,7 +1,39 @@
 
 import { ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const Hero = () => {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  useEffect(() => {
+    // Set target date to June 15, 2025, 8:00 AM
+    const targetDate = new Date('2025-06-15T08:00:00');
+    
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const difference = targetDate.getTime() - now.getTime();
+      
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        
+        setTimeLeft({ days, hours, minutes, seconds });
+      }
+    };
+    
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+    
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section id="início" className="relative min-h-screen flex items-center justify-center pt-16">
       <div className="absolute inset-0 z-0">
@@ -57,12 +89,17 @@ const Hero = () => {
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 relative overflow-hidden shadow-xl animate-float">
               <h3 className="text-2xl font-bold mb-4">Largada em:</h3>
               <div className="grid grid-cols-4 gap-4 mb-6">
-                {['DIAS', 'HORAS', 'MIN', 'SEG'].map((unit, index) => (
+                {[
+                  { value: timeLeft.days.toString().padStart(2, '0'), label: 'DIAS' },
+                  { value: timeLeft.hours.toString().padStart(2, '0'), label: 'HORAS' },
+                  { value: timeLeft.minutes.toString().padStart(2, '0'), label: 'MIN' },
+                  { value: timeLeft.seconds.toString().padStart(2, '0'), label: 'SEG' }
+                ].map((unit, index) => (
                   <div key={index} className="text-center">
                     <div className="bg-race-primary text-white p-3 rounded-lg font-bold text-xl mb-1">
-                      {index === 0 ? '243' : index === 1 ? '16' : index === 2 ? '42' : '09'}
+                      {unit.value}
                     </div>
-                    <p className="text-sm font-medium">{unit}</p>
+                    <p className="text-sm font-medium">{unit.label}</p>
                   </div>
                 ))}
               </div>
