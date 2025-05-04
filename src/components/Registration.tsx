@@ -1,9 +1,14 @@
 
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { submitToGoogleSheets, getLastRegistrationId, generateNextId } from '@/utils/googleSheetsIntegration';
+import { useNavigate } from 'react-router-dom';
 
 const Registration = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -11,6 +16,7 @@ const Registration = () => {
     gender: '',
     course: '',
     payment: '',
+    tshirtSize: '',
     terms: false
   });
 
@@ -21,6 +27,7 @@ const Registration = () => {
     gender: false,
     course: false,
     payment: false,
+    tshirtSize: false,
     terms: false
   });
 
@@ -50,6 +57,7 @@ const Registration = () => {
       gender: !form.gender,
       course: !form.course,
       payment: !form.payment,
+      tshirtSize: !form.tshirtSize,
       terms: !form.terms
     };
 
@@ -57,26 +65,73 @@ const Registration = () => {
     return !Object.values(errors).some(error => error);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (validateForm()) {
-      // Simulate form submission success
-      toast({
-        title: "Inscrição enviada com sucesso!",
-        description: "Em breve você receberá um e-mail com as instruções para pagamento.",
-      });
-      
-      // Reset form
-      setForm({
-        name: '',
-        email: '',
-        phone: '',
-        gender: '',
-        course: '',
-        payment: '',
-        terms: false
-      });
+      setIsSubmitting(true);
+      try {
+        // Get the last registration ID and generate the next one
+        const lastId = await getLastRegistrationId();
+        const newId = generateNextId(lastId);
+        
+        // Submit data to Google Sheets
+        const submissionData = {
+          id: newId,
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          gender: form.gender,
+          course: form.course,
+          payment: form.payment,
+          tshirtSize: form.tshirtSize
+        };
+        
+        const success = await submitToGoogleSheets(submissionData);
+        
+        if (success) {
+          toast({
+            title: "Inscrição enviada com sucesso!",
+            description: "Você será redirecionado para a página de pagamento.",
+          });
+          
+          // Store registration info in localStorage for the payment page
+          localStorage.setItem('registrationData', JSON.stringify({
+            id: newId,
+            ...form
+          }));
+          
+          // Redirect to payment page (placeholder URL for now)
+          // This will be updated with the actual payment link
+          setTimeout(() => {
+            // navigate('/pagamento'); // Uncomment when payment page is available
+            window.location.href = "#pagamento"; // Temporary solution
+            
+            // Reset form
+            setForm({
+              name: '',
+              email: '',
+              phone: '',
+              gender: '',
+              course: '',
+              payment: '',
+              tshirtSize: '',
+              terms: false
+            });
+          }, 2000);
+        } else {
+          throw new Error("Falha ao enviar para o Google Sheets");
+        }
+      } catch (error) {
+        console.error("Error during submission:", error);
+        toast({
+          title: "Erro ao enviar formulário",
+          description: "Houve um problema ao processar sua inscrição. Tente novamente.",
+          variant: "destructive"
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
       toast({
         title: "Erro no formulário",
@@ -221,23 +276,47 @@ const Registration = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <label htmlFor="payment" className="block mb-1 font-medium text-gray-700">Forma de pagamento *</label>
-                    <select 
-                      id="payment" 
-                      name="payment" 
-                      className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-race-primary ${formErrors.payment ? 'border-red-500' : 'border-gray-300'}`}
-                      value={form.payment}
-                      onChange={handleChange}
-                    >
-                      <option value="">Selecione</option>
-                      <option value="pix">PIX</option>
-                      <option value="transfer">Transferência Bancária</option>
-                      <option value="debit">Cartão de Débito</option>
-                      <option value="credit">Cartão de Crédito à Vista</option>
-                      <option value="credit_installment">Cartão de Crédito Parcelado</option>
-                    </select>
-                    {formErrors.payment && <p className="text-red-500 text-sm mt-1">Selecione uma opção</p>}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="tshirtSize" className="block mb-1 font-medium text-gray-700">Tamanho da Camisa *</label>
+                      <select 
+                        id="tshirtSize" 
+                        name="tshirtSize" 
+                        className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-race-primary ${formErrors.tshirtSize ? 'border-red-500' : 'border-gray-300'}`}
+                        value={form.tshirtSize}
+                        onChange={handleChange}
+                      >
+                        <option value="">Selecione</option>
+                        <option value="P">P</option>
+                        <option value="M">M</option>
+                        <option value="G">G</option>
+                        <option value="GG">GG</option>
+                        <option value="XG">XG</option>
+                        <option value="P-infantil">P Infantil</option>
+                        <option value="M-infantil">M Infantil</option>
+                        <option value="G-infantil">G Infantil</option>
+                      </select>
+                      {formErrors.tshirtSize && <p className="text-red-500 text-sm mt-1">Selecione uma opção</p>}
+                    </div>
+
+                    <div>
+                      <label htmlFor="payment" className="block mb-1 font-medium text-gray-700">Forma de pagamento *</label>
+                      <select 
+                        id="payment" 
+                        name="payment" 
+                        className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-race-primary ${formErrors.payment ? 'border-red-500' : 'border-gray-300'}`}
+                        value={form.payment}
+                        onChange={handleChange}
+                      >
+                        <option value="">Selecione</option>
+                        <option value="pix">PIX</option>
+                        <option value="transfer">Transferência Bancária</option>
+                        <option value="debit">Cartão de Débito</option>
+                        <option value="credit">Cartão de Crédito à Vista</option>
+                        <option value="credit_installment">Cartão de Crédito Parcelado</option>
+                      </select>
+                      {formErrors.payment && <p className="text-red-500 text-sm mt-1">Selecione uma opção</p>}
+                    </div>
                   </div>
 
                   <div className="flex items-start">
@@ -260,8 +339,9 @@ const Registration = () => {
                   <button 
                     type="submit" 
                     className="btn btn-primary btn-lg rounded-lg w-full md:w-auto md:px-12 transition-all hover:scale-105"
+                    disabled={isSubmitting}
                   >
-                    Finalizar Inscrição
+                    {isSubmitting ? 'Processando...' : 'Finalizar Inscrição'}
                   </button>
                 </div>
               </form>
