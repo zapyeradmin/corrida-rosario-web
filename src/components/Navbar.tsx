@@ -28,15 +28,15 @@ const Navbar = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}>
       <div className="container-custom flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2">
-          <div className="h-10 w-10 rounded-full bg-race-primary flex items-center justify-center">
-            <span className="text-white font-bold text-lg">CF</span>
-          </div>
-          <div>
-            <h1 className={`font-bold ${scrolled ? 'text-race-primary' : 'text-white'} text-lg sm:text-xl`}>
-              Corrida das Famílias
-            </h1>
-          </div>
+        <a href="#" className="flex items-center">
+          <img 
+            src={scrolled 
+              ? "/lovable-uploads/3bab835a-eef4-420d-ae8f-958b16e9e79d.png" 
+              : "/lovable-uploads/ada29a0d-f12b-4ddc-96eb-75026e127dda.png"
+            } 
+            alt="Corrida das Famílias Logo" 
+            className="h-10 md:h-12 transition-all duration-300"
+          />
         </a>
 
         <div className="hidden md:flex gap-6 items-center">
@@ -60,7 +60,7 @@ const Navbar = () => {
         </div>
 
         <button 
-          className="md:hidden text-race-primary"
+          className={`md:hidden ${scrolled ? 'text-race-primary' : 'text-white'}`}
           onClick={toggleMenu}
           aria-label="Menu"
         >
